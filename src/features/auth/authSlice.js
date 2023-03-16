@@ -10,9 +10,9 @@ const initialState = {
     error: ''
 };
 
-const createUser = createAsyncThunk("auth/createUser", async ({email,password}, thunkApi) => {
+export const createUser = createAsyncThunk("auth/createUser", async ({ email, password }, thunkApi) => {
     const data = await createUserWithEmailAndPassword(auth, email, password);
-    return data;
+    return data.user.email;
 })
 
 const authSlice = createSlice({
@@ -24,7 +24,7 @@ const authSlice = createSlice({
             state.isError = false;
             state.error = '';
         })
-        builder.addCase(createUser.fulfilled, (state, {payload}) => {
+        builder.addCase(createUser.fulfilled, (state, { payload }) => {
             state.email = payload;
             state.isLoading = false;
             state.isError = false;
